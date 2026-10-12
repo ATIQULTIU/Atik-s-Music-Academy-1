@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Atik's Music Academy</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Manrope:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0b0a12;--bg2:#14121f;--gold:#c9a96e;--rose:#e0567a;--ink:#ece8f4;--mute:#9a94ad;--line:rgba(201,169,110,.2);--ok:#4fbf8a;--bad:#e0566a}
+*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font:400 16px/1.6 Manrope,sans-serif}
+h1,h2,h3{font-family:'Cormorant Garamond',serif;font-weight:600;line-height:1.1}
+a{color:inherit;text-decoration:none}.wrap{max-width:1100px;margin:auto;padding:0 20px}
+nav{position:sticky;top:0;z-index:20;background:rgba(11,10,18,.85);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;height:64px;gap:12px}
+.logo{font:600 22px 'Cormorant Garamond',serif;color:var(--gold)}nav .links{display:flex;gap:18px;align-items:center;font-size:14px;flex-wrap:wrap}
+.btn{background:var(--gold);color:#17120a;border:0;padding:10px 20px;border-radius:30px;font:600 14px Manrope;cursor:pointer;display:inline-block}
+.btn.ghost{background:transparent;color:var(--gold);border:1px solid var(--gold)}.btn.sm{padding:6px 12px;font-size:12px}.btn.bad{background:var(--bad);color:#fff}.btn.ok{background:var(--ok);color:#06150e}
+.hero{padding:70px 0;display:grid;grid-template-columns:1.1fr .9fr;gap:30px;align-items:center;background:radial-gradient(ellipse at 80% 30%,rgba(224,86,122,.18),transparent 60%)}
+.hero h1{font-size:clamp(40px,7vw,76px)}.hero h1 em{color:var(--gold)}.hero p{color:var(--mute);margin:18px 0 26px;max-width:480px}
+.vinyl{animation:spin 14s linear infinite;width:100%;max-width:380px;margin:auto;display:block}@keyframes spin{to{transform:rotate(360deg)}}
+section{padding:60px 0}section h2{font-size:40px;margin-bottom:8px}.sub{color:var(--mute);margin-bottom:28px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}
+.card{background:var(--bg2);border:1px solid var(--line);border-radius:16px;padding:22px}
+.card svg{width:64px;height:64px;margin-bottom:12px}.card h3{font-size:24px;color:var(--gold)}.card p{color:var(--mute);font-size:14px}
+.keys{height:90px;border-radius:0 0 10px 10px;background:repeating-linear-gradient(90deg,#f4efe6 0 38px,#222 38px 40px);position:relative}
+.keys:after{content:"";position:absolute;inset:0 0 35px;background:repeating-linear-gradient(90deg,transparent 0 28px,#111 28px 50px,transparent 50px 80px)}
+form.f{display:grid;gap:12px;grid-template-columns:1fr 1fr}.f .full{grid-column:1/-1}
+input,select,textarea{width:100%;background:#0b0a12;border:1px solid var(--line);color:var(--ink);padding:11px 13px;border-radius:10px;font:inherit}
+label{font-size:12px;color:var(--mute);display:block;margin-bottom:4px}
+footer{border-top:1px solid var(--line);padding:30px 0;color:var(--mute);font-size:14px;text-align:center}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.7);display:none;align-items:center;justify-content:center;z-index:50;padding:16px}.modal.on{display:flex}
+.modal .card{width:100%;max-width:440px;max-height:90vh;overflow:auto}
+#admin{display:none;min-height:100vh}.side{display:flex;gap:8px;flex-wrap:wrap;padding:14px 20px;border-bottom:1px solid var(--line);align-items:center;background:var(--bg2)}
+.tab{background:none;border:1px solid var(--line);color:var(--ink);padding:8px 16px;border-radius:20px;cursor:pointer;font:inherit;font-size:14px}.tab.on{background:var(--gold);color:#17120a}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-bottom:22px}.stat b{font:600 38px 'Cormorant Garamond';color:var(--gold);display:block}
+.tw{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:14px}th,td{padding:10px;text-align:left;border-bottom:1px solid var(--line);white-space:nowrap}th{color:var(--gold);font-weight:600}
+.tag{padding:2px 10px;border-radius:12px;font-size:12px}.Pending{background:#4a3b12;color:#f3d27a}.Approved{background:#0f3a28;color:var(--ok)}.Rejected{background:#4a1520;color:#ff8a9a}
+.bar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}.bar input{max-width:260px}
+#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--gold);color:#17120a;padding:10px 20px;border-radius:30px;display:none;z-index:99;font-weight:600}
+@media(max-width:700px){.hero{grid-template-columns:1fr}form.f{grid-template-columns:1fr}}
+</style></head><body>
+
+<div id="site">
+<nav><div class="wrap"><a class="logo" href="#top">♪ Atik's Music Academy</a>
+<div class="links"><a href="#courses">Courses</a><a href="#faculty">Faculty</a><a href="#admission">Admission</a><a href="#contact">Contact</a>
+<button class="btn ghost sm" onclick="openLogin()">Admin Login</button></div></div></nav>
+
+<header class="wrap hero" id="top"><div>
+<h1>Where every <em>note</em> finds its voice.</h1>
+<p>Learn guitar, piano, vocals, tabla and more from passionate teachers. Join Atik's Music Academy and turn your love for music into real skill.</p>
+<a class="btn" href="#admission">Apply for Admission</a> <a class="btn ghost" href="#courses">Explore Courses</a></div>
+<svg class="vinyl" viewBox="0 0 400 400"><defs><radialGradient id="g"><stop offset="0" stop-color="#2a2540"/><stop offset="1" stop-color="#07060c"/></radialGradient></defs>
+<circle cx="200" cy="200" r="190" fill="url(#g)" stroke="#c9a96e" stroke-opacity=".4"/>
+<g fill="none" stroke="#c9a96e" stroke-opacity=".15"><circle cx="200" cy="200" r="160"/><circle cx="200" cy="200" r="135"/><circle cx="200" cy="200" r="110"/></g>
+<circle cx="200" cy="200" r="70" fill="#e0567a"/><text x="200" y="195" text-anchor="middle" font-family="serif" font-size="22" fill="#fff">Atik's</text><text x="200" y="220" text-anchor="middle" font-family="serif" font-size="16" fill="#fff">Music Academy</text><circle cx="200" cy="200" r="6" fill="#0b0a12"/></svg></header>
+
+<div class="wrap"><div class="keys"></div></div>
+
+<section id="courses"><div class="wrap"><h2>Our Courses</h2><p class="sub">Beginner to advanced, in small friendly batches.</p>
+<div class="grid">
+<div class="card"><svg viewBox="0 0 64 64" fill="none" stroke="#c9a96e" stroke-width="2.5"><path d="M40 8l16 16-6 6-16-16zM36 22L14 44a8 8 0 1010 10l22-22"/><circle cx="19" cy="49" r="3"/></svg><h3>Guitar</h3><p>Acoustic &amp; electric: chords, strumming, solos.</p></div>
+<div class="card"><svg viewBox="0 0 64 64" fill="none" stroke="#c9a96e" stroke-width="2.5"><rect x="6" y="18" width="52" height="30" rx="3"/><path d="M16 18v30M26 18v30M38 18v30M48 18v30" /><path d="M14 18v16M24 18v16M36 18v16M46 18v16" stroke-width="6"/></svg><h3>Piano &amp; Keyboard</h3><p>Reading notes, theory and live performance.</p></div>
+<div class="card"><svg viewBox="0 0 64 64" fill="none" stroke="#c9a96e" stroke-width="2.5"><rect x="24" y="6" width="16" height="28" rx="8"/><path d="M16 28a16 16 0 0032 0M32 44v12M22 56h20"/></svg><h3>Vocal Training</h3><p>Breath control, pitch, Bangla &amp; modern songs.</p></div>
+<div class="card"><svg viewBox="0 0 64 64" fill="none" stroke="#c9a96e" stroke-width="2.5"><ellipse cx="32" cy="20" rx="20" ry="8"/><path d="M12 20v22c0 5 9 8 20 8s20-3 20-8V20"/><path d="M20 28l6 18M44 28l-6 18M32 30v20"/></svg><h3>Tabla &amp; Rhythm</h3><p>Taal, laya and percussion fundamentals.</p></div>
+</div></div></section>
+
+<section id="faculty"><div class="wrap"><h2>Meet the Founder</h2><p class="sub">The person behind the music and the code.</p>
+<div class="card" style="display:flex;gap:20px;align-items:center;flex-wrap:wrap">
+<img src="images/atik.jpg" alt="MD. Atiqul Islam (Atik)" style="width:140px;height:140px;border-radius:50%;object-fit:cover;object-position:50% 25%;border:3px solid var(--gold);box-shadow:0 0 0 6px rgba(201,169,110,.15)">
+<div><h3 style="font-size:30px;color:var(--gold)">MD. Atiqul Islam (Atik)</h3><p style="color:var(--mute)">Founder &amp; Developer, Atik's Music Academy</p></div></div></div></section>
+
+<section id="admission"><div class="wrap"><h2>New Admission</h2><p class="sub">Fill the form. Our team will review and confirm.</p>
+<form class="f card" onsubmit="submitAdm(event)">
+<div><label>Full name</label><input name="name" required></div><div><label>Phone</label><input name="phone" required></div>
+<div><label>Email</label><input name="email" type="email"></div><div><label>Age</label><input name="age" type="number" min="4" max="90" required></div>
+<div class="full"><label>Course</label><select name="course"><option>Guitar</option><option>Piano &amp; Keyboard</option><option>Vocal Training</option><option>Tabla &amp; Rhythm</option></select></div>
+<div class="full"><button class="btn">Submit Application</button></div></form></div></section>
+
+<section id="contact"><div class="wrap"><h2>Contact</h2><div class="grid" style="margin-top:16px">
+<a class="card" href="tel:+8801701508524"><h3>Phone</h3><p>+8801701508524</p></a>
+<a class="card" href="mailto:atiksocial123@gmail.com"><h3>Email</h3><p>atiksocial123@gmail.com</p></a></div></div></section>
+<footer>© <span id="yr"></span> Atik's Music Academy · Developer: MD. Atiqul Islam (Atik)</footer>
+</div>
+
+<div id="admin"><div class="side"><b class="logo" style="margin-right:auto">♪ Admin Panel</b>
+<button class="tab on" data-t="dash">Dashboard</button><button class="tab" data-t="adm">Admissions</button><button class="tab" data-t="emp">Employees</button>
+<button class="btn ghost sm" onclick="logout()">Logout</button></div>
+<div class="wrap" style="padding-top:24px;padding-bottom:40px" id="view"></div></div>
+
+<div class="modal" id="m"><div class="card" id="mc"></div></div><div id="toast"></div>
+
+<script>
+const $=s=>document.querySelector(s),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const DB={get:(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch{return d}},set:(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch{}}};
+let mem={adm:[],emp:[],auth:false};
+const load=k=>mem[k]=DB.get('ama_'+k,[]),save=k=>DB.set('ama_'+k,mem[k]);
+load('adm');load('emp');mem.auth=DB.get('ama_auth',false);
+const CRED={u:'admin',p:'atik@123'}; // demo only: client-side login is NOT secure
+const toast=t=>{const e=$('#toast');e.textContent=t;e.style.display='block';setTimeout(()=>e.style.display='none',2200)};
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,5);
+$('#yr').textContent=new Date().getFullYear();
+const modal=h=>{$('#mc').innerHTML=h;$('#m').classList.add('on')},closeM=()=>$('#m').classList.remove('on');
+$('#m').onclick=e=>{if(e.target.id==='m')closeM()};
+
+function submitAdm(e){e.preventDefault();const d=Object.fromEntries(new FormData(e.target));
+mem.adm.unshift({id:uid(),...d,status:'Pending',date:new Date().toLocaleDateString()});save('adm');e.target.reset();toast('Application submitted!')}
+
+function openLogin(){if(mem.auth)return show();
+modal(`<h3 style="color:var(--gold);font-size:28px;margin-bottom:12px">Admin Login</h3><form onsubmit="doLogin(event)" style="display:grid;gap:12px">
+<div><label>Username</label><input name="u" required></div><div><label>Password</label><input name="p" type="password" required></div>
+<button class="btn">Login</button><small style="color:var(--mute)">Demo: admin / atik@123</small></form>`)}
+function doLogin(e){e.preventDefault();const f=new FormData(e.target);
+if(f.get('u')===CRED.u&&f.get('p')===CRED.p){mem.auth=true;DB.set('ama_auth',true);closeM();show()}else toast('Wrong username or password')}
+function logout(){mem.auth=false;DB.set('ama_auth',false);$('#admin').style.display='none';$('#site').style.display='block'}
+function show(){$('#site').style.display='none';$('#admin').style.display='block';tab('dash')}
+document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>tab(b.dataset.t));
+let cur='dash',q='';
+function tab(t){cur=t;q='';document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('on',b.dataset.t===t));render()}
+function render(){$('#view').innerHTML=({dash,adm,emp})[cur]()}
+const cnt=s=>mem.adm.filter(a=>a.status===s).length;
+function dash(){return `<h2>Dashboard</h2><div class="stats" style="margin-top:14px">
+<div class="card stat"><b>${mem.adm.length}</b>Applications</div><div class="card stat"><b>${cnt('Pending')}</b>Pending</div>
+<div class="card stat"><b>${cnt('Approved')}</b>Approved</div><div class="card stat"><b>${mem.emp.length}</b>Employees</div></div>
+<p class="sub">Use the tabs above to approve admissions and manage staff.</p>`}
+const match=o=>!q||JSON.stringify(o).toLowerCase().includes(q.toLowerCase());
+function search(v){q=v;render();const i=$('#view input');i.focus();i.setSelectionRange(v.length,v.length)}
+function adm(){const rows=mem.adm.filter(match).map(a=>`<tr><td>${esc(a.name)}</td><td>${esc(a.phone)}</td><td>${esc(a.course)}</td><td>${esc(a.age)}</td><td>${esc(a.date)}</td><td><span class="tag ${a.status}">${a.status}</span></td>
+<td><button class="btn ok sm" onclick="setSt('${a.id}','Approved')">Approve</button> <button class="btn ghost sm" onclick="setSt('${a.id}','Rejected')">Reject</button> <button class="btn ghost sm" onclick="editAdm('${a.id}')">Edit</button> <button class="btn bad sm" onclick="del('adm','${a.id}')">Delete</button></td></tr>`).join('');
+return `<h2>Admissions</h2><div class="bar" style="margin-top:12px"><input placeholder="Search…" value="${esc(q)}" oninput="search(this.value)"><button class="btn sm" onclick="editAdm()">+ New Admission</button><button class="btn ghost sm" onclick="csv('adm')">Export CSV</button></div>
+<div class="card tw"><table><tr><th>Name</th><th>Phone</th><th>Course</th><th>Age</th><th>Date</th><th>Status</th><th>Actions</th></tr>${rows||'<tr><td colspan=7>No records</td></tr>'}</table></div>`}
+function emp(){const rows=mem.emp.filter(match).map(a=>`<tr><td>${esc(a.name)}</td><td>${esc(a.role)}</td><td>${esc(a.phone)}</td><td>${esc(a.salary)}</td><td>
+<button class="btn ghost sm" onclick="editEmp('${a.id}')">Edit</button> <button class="btn bad sm" onclick="del('emp','${a.id}')">Delete</button></td></tr>`).join('');
+return `<h2>Employees</h2><div class="bar" style="margin-top:12px"><input placeholder="Search…" value="${esc(q)}" oninput="search(this.value)"><button class="btn sm" onclick="editEmp()">+ Add Employee</button><button class="btn ghost sm" onclick="csv('emp')">Export CSV</button></div>
+<div class="card tw"><table><tr><th>Name</th><th>Role</th><th>Phone</th><th>Salary (৳)</th><th>Actions</th></tr>${rows||'<tr><td colspan=5>No records</td></tr>'}</table></div>`}
+function setSt(id,s){mem.adm.find(a=>a.id===id).status=s;save('adm');render();toast(s)}
+function del(k,id){if(!confirm('Delete this record?'))return;mem[k]=mem[k].filter(a=>a.id!==id);save(k);render()}
+function formModal(title,fields,o,k){modal(`<h3 style="color:var(--gold);font-size:26px;margin-bottom:12px">${title}</h3><form onsubmit="saveRec(event,'${k}','${o.id||''}')" style="display:grid;gap:10px">
+${fields.map(f=>`<div><label>${f[1]}</label><input name="${f[0]}" type="${f[2]||'text'}" value="${esc(o[f[0]])}" required></div>`).join('')}<button class="btn">Save</button></form>`)}
+function editAdm(id){const o=mem.adm.find(a=>a.id===id)||{};formModal(id?'Edit Admission':'New Admission',[['name','Name'],['phone','Phone'],['course','Course'],['age','Age','number']],o,'adm')}
+function editEmp(id){const o=mem.emp.find(a=>a.id===id)||{};formModal(id?'Edit Employee':'Add Employee',[['name','Name'],['role','Role (e.g. Guitar Teacher)'],['phone','Phone'],['salary','Salary','number']],o,'emp')}
+function saveRec(e,k,id){e.preventDefault();const d=Object.fromEntries(new FormData(e.target));
+if(id)Object.assign(mem[k].find(a=>a.id===id),d);else mem[k].unshift({id:uid(),...d,...(k==='adm'?{status:'Pending',date:new Date().toLocaleDateString()}:{})});
+save(k);closeM();render();toast('Saved')}
+function csv(k){const a=mem[k];if(!a.length)return toast('Nothing to export');const h=Object.keys(a[0]).filter(x=>x!=='id');
+const c=[h.join(','),...a.map(r=>h.map(x=>'"'+String(r[x]??'').replace(/"/g,'""')+'"').join(','))].join('\n');
+const l=document.createElement('a');l.href=URL.createObjectURL(new Blob([c],{type:'text/csv'}));l.download=k+'.csv';l.click()}
+if(mem.auth)show();
+</script></body></html>
